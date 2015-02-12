@@ -3,7 +3,7 @@ session_start();
 
 
 
-$db = mysqli_connect("localhost", "root", "", "mydb");
+require 'dbconect.php';
 $mail = $_POST['mail'];
 $pass = $_POST['pass'];
 $salt = "#$%^&*@#$%^&*";

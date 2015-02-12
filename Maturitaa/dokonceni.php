@@ -4,8 +4,7 @@ session_start();
 
 if (isset($_POST["adresa"]) && isset($_POST["mesto"]) && isset($_POST["psc"])) {
 
-    $db = mysqli_connect("localhost", "root", "", "mydb");
-
+    require 'dbconect.php';
     $adresa = $_POST["adresa"];
     $mesto = $_POST["mesto"];
     $psc = $_POST["psc"];

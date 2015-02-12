@@ -1,115 +1,54 @@
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title></title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
-        <script type="text/javascript" src="js/jquery-1.6.3.min.js"></script>
-        <script type="text/javascript" src="js/navigation.js"></script>
-        <script type="text/javascript" src="js/profile.js"></script>
-    </head>
-    <style>
-        div.img {
-            margin: 5px;
-            padding: 5px;
-            border: 1px solid #0000ff;
-            height: auto;
-            width: auto;
-            float: left;
-            text-align: center;
-        }
+<?php
+//session_start();
+if (!isset($_SESSION['user_id'])) {
+    echo '<br>Pro dokonceni ojednavky se prosim registrujte nebo prihlaste <a href="index.php?page=profile">ZDE</a>';
+} else {
+    //echo 'jste prihlasen';
+}
+?>
 
-        div.img img {
-            display: inline;
-            margin: 5px;
-            border: 1px solid #ffffff;
-        }
+<div class="cart">
 
-        div.img a:hover img {
-            border:1px solid #0000ff;
-        }
-
-        div.desc {
-            text-align: center;
-            font-weight: normal;
-            width: 120px;
-            margin: 5px;
-        }
-
-    </style>
-    <script>
-        $(document).ready(function() {
-
-            $(".bar td").click(function() {
-                var id = $(this).attr("id");
-                $(".incontent").load("loadObleceni.php", {"category": id});
+    <?php
+    $cart = $_SESSION['cart'];
+    require 'dbconect.php';
+    $pieces = explode(";", $cart);
+    //echo $pieces[0];
+    unset($pieces[count($pieces) - 1]);
+    $kc = ' Kc';
+    $sum = 0;
+    foreach ($pieces as $id) {
+        $query = "SELECT * FROM `product` WHERE ID ='" . $id . "'";
+        $result = mysqli_query($db, $query);
+        $data = mysqli_fetch_assoc($result);
+        //   echo $data['ID'];
+        echo ' ';
+        echo $data['ProductName'];
+        echo ' ';
+        //echo $data['Category'];
+        echo ' ';
+        echo $data['Price'];
+        echo ' Kc';
+        echo ' ';
+        echo '<a href="deleteProduct.php?id=' . $data['ID'] . '"><img src="image/delete.gif"/></a>';
 
 
-            });
-        });
-    </script>
+        echo '<br>';
+        $sum = $sum + $data['Price'];
+    }echo 'Finalni cena' . $sum . $kc;
+    ?>
+<?php if (isset($_SESSION['user_id'])) { ?>
+        <form method="post" action="index.php?page=objednavka">
 
-    <body>
+            <p class="submit"><input class="subbutt" type="submit" name="" value="Odeslat"></p>
+
+        </form>
+    <?php
+    }
+        ?>
+
+        <a href="index.php?page=objednavky">Objednavky</a>
+</div>
 
 
-        <div class="container">
-            <div class="nav">
-                <div class="logo"><a href="index.php"><img src="image/Mywaylogo.png"/></a></div>
-                <div class="navigation">
-                    <table>
-                        <tr align="center">
-                            <td id="homee"><a href="index.php">HOME</a></td>
-                            <td id="profilee">PROFILE</td>
-                            <td id="course"><a href="Course.php">COURSE</a></td>
-                            <td id="contact"><a href="Contact.php">CONTACT</a></td>
-                            <td id="cart"><a href="Cart.php">CART</a></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="contentnav">    
-                <div class="slideshow">
-                    <?php echo 'tady bude kosik';
-                    ?>
-                </div>
-
-                <div class="course"></div>
-                <div class="contact"></div>
-                <div class="cart"></div>
-            </div>
-            <div class="slideswip">
-                <table class="tabswip">
-
-                </table>
-                <div class="bla"></div>
-            </div>
-            <div class="cont-bar">
-                <div class="bar" align="center">
-                    <table>
-                        <tr align="center">
-                        <ul>
-                            <td class="slidedown" id="jackets">JACKETS</td>
-                            <td class="slidedown" id="hoodies">HOODIES</td>
-                            <td class="slidedown" id="tshirts">T-SHIRTS</td>
-                            <td class="slidedown" id="trousers">TROUSERS</td>
-                            <td class="slidedown" id="shorts">SHORTS</td>
-                            <td class="slidedown" id="shoes">SHOES</td>
-                            <td class="slidedown" id="training">TRAINING</td>
-                            <td class="slidedown" id="accessories">ACCESSORIES</td>
-
-                            </tr>
-                    </table>
-                    <img class="slidedown" src="image/1.png"/>
-                </div>
-            </div>
-            <div class="content">
-
-                <div class="incontent">
-                    <?php
-                    ?>
-
-                </div>
-            </div>
-        </div>
-    </body>
-</html>

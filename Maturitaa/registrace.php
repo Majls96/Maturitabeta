@@ -69,8 +69,7 @@
         <?php
         if (isset($_POST["name"]) && isset($_POST["pass"]) && isset($_POST["passrep"]) && isset($_POST["mail"])) {
 
-            $db = mysqli_connect("localhost", "root", "", "mydb");
-
+            require 'dbconect.php';
             $pass = $_POST["pass"];
             $name = $_POST["name"];
             $mail = $_POST["mail"];
@@ -116,7 +115,7 @@
             $genepass = random_string(20);
             if ($err == 0) {
                 $salt = "#$%^&*@#$%^&*";
-                $result = mysqli_query($db, "INSERT INTO uzivatel (ID,  Jmeno,Email, Password,Aktivace,Img,Trener,Adress,City,PSC) VALUES ('','" . $name . "','" . $mail . "', '" . sha1($pass . $salt) . "','" . $genepass . "', NULL, NULL, NULL, NULL,NULL)");
+                $result = mysqli_query($db, "INSERT INTO uzivatel (ID,  Jmeno,Email, Password,Aktivace,Img,Adress,City,PSC) VALUES ('','" . $name . "','" . $mail . "', '" . sha1($pass . $salt) . "','" . $genepass . "', NULL, NULL, NULL,NULL)");
                 if ($result === true) {
                     echo '<br>Uzivatel pridan</br>';
                     header("Location: index.php");
